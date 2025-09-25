@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -48,10 +48,52 @@
             margin-bottom: 30px;
         }
 
+        .credits-bar {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .credits-info {
+            font-size: 1.1rem;
+        }
+
+        .credits-count {
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .free-badge {
+            background: #ff6b6b;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .upload-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .upload-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .upload-area {
             border: 3px dashed #667eea;
             border-radius: 15px;
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
             background: #f8f9ff;
             transition: all 0.3s ease;
@@ -69,16 +111,31 @@
             transform: scale(1.02);
         }
 
+        .bulk-upload-area {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .bulk-upload-area:hover {
+            border-color: #218838;
+            background: #f0fff1;
+        }
+
         .upload-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             color: #667eea;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+
+        .bulk-upload-icon {
+            color: #28a745;
         }
 
         .upload-text {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #666;
             margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .upload-subtext {
@@ -86,7 +143,7 @@
             font-size: 0.9rem;
         }
 
-        #file-input {
+        #file-input, #bulk-file-input {
             display: none;
         }
 
@@ -94,12 +151,12 @@
             background: #667eea;
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
             cursor: pointer;
             transition: background 0.3s ease;
-            margin: 10px;
+            margin: 5px;
         }
 
         .btn:hover {
@@ -119,39 +176,13 @@
             background: #218838;
         }
 
-        .preview-section {
-            margin-top: 30px;
-            display: none;
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
         }
 
-        .preview-image {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .extracted-data {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        .data-table th,
-        .data-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .data-table th {
+        .btn-outline:hover {
             background: #667eea;
             color: white;
         }
@@ -177,6 +208,10 @@
             100% { transform: rotate(360deg); }
         }
 
+        .results-section {
+            display: none;
+        }
+
         .error {
             background: #f8d7da;
             color: #721c24;
@@ -184,6 +219,163 @@
             border-radius: 10px;
             margin: 20px 0;
             display: none;
+        }
+
+        .receipt-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .receipt-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .receipt-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .receipt-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: #667eea;
+            color: white;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .download-buttons {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bulk-controls {
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        .payment-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .payment-option {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .payment-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .payment-option.selected {
+            border-color: #667eea;
+            background: #e8ecff;
+        }
+
+        .payment-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .payment-savings {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .history-section {
+            margin-top: 40px;
+        }
+
+        .history-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .history-info {
+            flex: 1;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .features {
@@ -206,10 +398,10 @@
             margin-bottom: 15px;
         }
 
-        .pricing {
+        .pricing-highlight {
             text-align: center;
             color: white;
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         .pricing-card {
@@ -225,50 +417,72 @@
     <div class="container">
         <header class="header">
             <h1>📄➡️📊 ReceiptToSpreadsheets.com</h1>
-            <p>Convert any receipt photo into a perfect Excel/CSV file in seconds</p>
+            <p>Convert any receipt photo into perfect Excel/CSV files instantly</p>
         </header>
 
         <div class="main-card">
-            <div class="upload-area" onclick="document.getElementById('file-input').click()">
-                <div class="upload-icon">📸</div>
-                <div class="upload-text">Drop your receipt photo here</div>
-                <div class="upload-subtext">or click to browse (JPG, PNG, PDF supported)</div>
+            <!-- Credits Display -->
+            <div class="credits-bar">
+                <div class="credits-info">
+                    💳 Credits: <span class="credits-count" id="credits-count">1</span> remaining
+                    <span class="free-badge" id="free-badge" style="margin-left: 15px;">First Receipt FREE!</span>
+                </div>
+                <button class="btn" onclick="showPaymentModal()" style="background: rgba(255,255,255,0.2);">
+                    💰 Buy More Credits
+                </button>
             </div>
+
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <!-- Single Upload -->
+                <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon">📸</div>
+                    <div class="upload-text">Single Receipt</div>
+                    <div class="upload-subtext">Drop one receipt photo here<br>or click to browse</div>
+                </div>
+
+                <!-- Bulk Upload -->
+                <div class="upload-area bulk-upload-area" onclick="document.getElementById('bulk-file-input').click()">
+                    <div class="upload-icon bulk-upload-icon">📚</div>
+                    <div class="upload-text">Bulk Upload</div>
+                    <div class="upload-subtext">Upload multiple receipts at once<br>for faster processing</div>
+                </div>
+            </div>
+
             <input type="file" id="file-input" accept="image/*,.pdf" />
+            <input type="file" id="bulk-file-input" accept="image/*,.pdf" multiple />
             
             <div class="loading">
                 <div class="spinner"></div>
-                <p>Processing your receipt with AI magic... ✨</p>
+                <p id="loading-text">Processing your receipt with AI magic... ✨</p>
             </div>
 
             <div class="error">
                 <p>Oops! Something went wrong. Please try again with a clearer photo.</p>
             </div>
 
-            <div class="preview-section">
-                <h3>📷 Your Receipt:</h3>
-                <img class="preview-image" id="preview-img" alt="Receipt preview" />
-                
-                <div class="extracted-data">
-                    <h3>🎯 Extracted Data:</h3>
-                    <table class="data-table" id="data-table">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body">
-                        </tbody>
-                    </table>
-                    
-                    <div style="margin-top: 20px;">
-                        <button class="btn btn-success" onclick="downloadCSV()">📥 Download CSV</button>
-                        <button class="btn btn-success" onclick="downloadExcel()">📥 Download Excel</button>
-                    </div>
-                </div>
+            <!-- Bulk Controls -->
+            <div class="bulk-controls">
+                <h3>📊 Bulk Processing Results</h3>
+                <p>Processed <span id="processed-count">0</span> receipts</p>
+                <button class="btn btn-success" onclick="downloadAllCSV()">📥 Download All as CSV</button>
+                <button class="btn btn-success" onclick="downloadAllExcel()">📥 Download All as Excel</button>
+                <button class="btn btn-outline" onclick="downloadSummaryReport()">📋 Download Summary Report</button>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <div id="receipts-container"></div>
+            </div>
+        </div>
+
+        <!-- Receipt History -->
+        <div class="main-card history-section" id="history-section" style="display: none;">
+            <h2>📜 Receipt History</h2>
+            <p style="color: #666; margin-bottom: 20px;">Your recently processed receipts</p>
+            <div id="history-container"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-outline" onclick="clearHistory()">🗑️ Clear History</button>
             </div>
         </div>
 
@@ -276,184 +490,636 @@
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
                 <h3>Lightning Fast</h3>
-                <p>Get your structured data in under 30 seconds</p>
+                <p>Process receipts in under 30 seconds with advanced AI</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Bulk Processing</h3>
+                <p>Upload multiple receipts at once and get organized results</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
                 <h3>99% Accurate</h3>
-                <p>Our AI reads even the messiest receipts perfectly</p>
+                <p>Advanced OCR reads even the messiest receipts perfectly</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Save Hours</h3>
-                <p>No more manual data entry - focus on what matters</p>
+                <div class="feature-icon">💼</div>
+                <h3>Business Ready</h3>
+                <p>Perfect for expense tracking, accounting, and tax preparation</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure & Private</h3>
+                <p>Your receipts are processed securely and never stored</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Multiple Formats</h3>
+                <p>Export to CSV, Excel, PDF, or connect to accounting software</p>
             </div>
         </div>
 
-        <div class="pricing">
+        <div class="pricing-highlight">
             <div class="pricing-card">
-                <h2>🎉 Limited Launch Offer</h2>
+                <h2>🎯 Simple, Fair Pricing</h2>
                 <p style="font-size: 1.2rem; margin: 20px 0;">
-                    <strong>First 100 conversions FREE!</strong><br>
-                    Then just $2 per receipt or $20/month unlimited
+                    <strong>First receipt FREE!</strong><br>
+                    Then just $1 per receipt, or save with bulk packages
                 </p>
             </div>
         </div>
     </div>
 
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="payment-content">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 30px;">💳 Choose Your Credits</h2>
+            
+            <div class="payment-option" onclick="selectPayment('single')" id="option-single">
+                <div class="payment-price">$1</div>
+                <div>1 Receipt Credit</div>
+                <div style="color: #666; font-size: 0.9rem;">Perfect for occasional use</div>
+            </div>
+            
+            <div class="payment-option" onclick="selectPayment('pack10')" id="option-pack10">
+                <div class="payment-price">$8</div>
+                <div>10 Receipt Credits</div>
+                <div class="payment-savings">Save $2 (20% off)</div>
+                <div style="color: #666; font-size: 0.9rem;">Great for regular users</div>
+            </div>
+            
+            <div class="payment-option" onclick="selectPayment('pack25')" id="option-pack25">
+                <div class="payment-price">$18</div>
+                <div>25 Receipt Credits</div>
+                <div class="payment-savings">Save $7 (28% off)</div>
+                <div style="color: #666; font-size: 0.9rem;">Perfect for small businesses</div>
+            </div>
+            
+            <div class="payment-option" onclick="selectPayment('pack100')" id="option-pack100">
+                <div class="payment-price">$60</div>
+                <div>100 Receipt Credits</div>
+                <div class="payment-savings">Save $40 (40% off)</div>
+                <div style="color: #666; font-size: 0.9rem;">Best value for heavy users</div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-success" onclick="processPayment()" id="pay-button" disabled>
+                    🔒 Secure Payment with Stripe
+                </button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
+                💡 Credits never expire • 🔒 Secure payments • 💯 Money-back guarantee
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
-        let extractedData = [];
+        let processedReceipts = [];
+        let selectedPaymentPlan = null;
+        let isFirstTimeUser = true;
+        
+        // Initialize Stripe
+        const stripe = Stripe('pk_test_your_publishable_key_here');
 
-        // File upload handling
-        const fileInput = document.getElementById('file-input');
-        const uploadArea = document.querySelector('.upload-area');
-        const previewSection = document.querySelector('.preview-section');
-        const loading = document.querySelector('.loading');
-        const error = document.querySelector('.error');
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                processFile(files[0]);
+        // Credits management
+        function getCredits() {
+            const stored = localStorage.getItem('receiptCredits');
+            const hasUsedFree = localStorage.getItem('hasUsedFree') === 'true';
+            
+            if (!hasUsedFree && !stored) {
+                return 1; // First free receipt
             }
-        });
+            
+            return parseInt(stored || '0');
+        }
 
-        fileInput.addEventListener('change', (e) => {
+        function setCredits(amount) {
+            localStorage.setItem('receiptCredits', amount.toString());
+            updateCreditsDisplay();
+        }
+
+        function useCredit() {
+            const hasUsedFree = localStorage.getItem('hasUsedFree') === 'true';
+            
+            if (!hasUsedFree) {
+                localStorage.setItem('hasUsedFree', 'true');
+                updateCreditsDisplay();
+                return true;
+            }
+            
+            const current = getCredits();
+            if (current > 0) {
+                setCredits(current - 1);
+                return true;
+            }
+            return false;
+        }
+
+        function addCredits(amount) {
+            const current = getCredits();
+            setCredits(current + amount);
+        }
+
+        function updateCreditsDisplay() {
+            const creditsElement = document.getElementById('credits-count');
+            const freeBadge = document.getElementById('free-badge');
+            const credits = getCredits();
+            const hasUsedFree = localStorage.getItem('hasUsedFree') === 'true';
+            
+            if (creditsElement) {
+                creditsElement.textContent = credits;
+            }
+            
+            if (freeBadge) {
+                freeBadge.style.display = (!hasUsedFree && credits > 0) ? 'inline-block' : 'none';
+            }
+        }
+
+        // File processing functions
+        function processFile(file) {
+            if (!useCredit()) {
+                showPaymentModal();
+                return;
+            }
+            
+            processSingleFile(file);
+        }
+
+        function processBulkFiles(files) {
+            const totalCreditsNeeded = files.length;
+            const currentCredits = getCredits();
+            const hasUsedFree = localStorage.getItem('hasUsedFree') === 'true';
+            const availableCredits = hasUsedFree ? currentCredits : currentCredits + 1;
+            
+            if (totalCreditsNeeded > availableCredits) {
+                alert(`You need ${totalCreditsNeeded} credits but only have ${availableCredits}. Please buy more credits.`);
+                showPaymentModal();
+                return;
+            }
+            
+            // Show loading for bulk
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('loading-text').textContent = `Processing ${files.length} receipts... This may take a moment.`;
+            document.querySelector('.results-section').style.display = 'none';
+            
+            // Process files sequentially
+            processBulkSequentially(Array.from(files), 0, []);
+        }
+
+        async function processBulkSequentially(files, index, results) {
+            if (index >= files.length) {
+                // All files processed
+                displayBulkResults(results);
+                return;
+            }
+            
+            const file = files[index];
+            
+            // Use credit for each file
+            if (!useCredit()) {
+                alert('Not enough credits for bulk processing');
+                return;
+            }
+            
+            try {
+                const result = await processSingleFileAsync(file);
+                results.push({
+                    filename: file.name,
+                    success: true,
+                    data: result
+                });
+            } catch (error) {
+                results.push({
+                    filename: file.name,
+                    success: false,
+                    error: error.message
+                });
+            }
+            
+            // Update loading text
+            document.getElementById('loading-text').textContent = 
+                `Processed ${index + 1}/${files.length} receipts...`;
+            
+            // Process next file
+            setTimeout(() => {
+                processBulkSequentially(files, index + 1, results);
+            }, 1000); // Small delay to prevent overwhelming the API
+        }
+
+        async function processSingleFileAsync(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    try {
+                        const response = await fetch('/.netlify/functions/process-receipt', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ imageData: e.target.result })
+                        });
+
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            resolve(result.data);
+                        } else {
+                            reject(new Error(result.error || 'Processing failed'));
+                        }
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function processSingleFile(file) {
+            document.querySelector('.loading').style.display = 'block';
+            document.getElementById('loading-text').textContent = 'Processing your receipt with AI magic... ✨';
+            document.querySelector('.results-section').style.display = 'none';
+            document.querySelector('.error').style.display = 'none';
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const response = await fetch('/.netlify/functions/process-receipt', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ imageData: e.target.result })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        const receiptData = {
+                            filename: file.name,
+                            timestamp: new Date().toISOString(),
+                            data: result.data,
+                            rawImage: e.target.result
+                        };
+                        
+                        processedReceipts = [receiptData];
+                        displayResults(processedReceipts);
+                        saveToHistory(receiptData);
+                    } else {
+                        showError(result.error || 'Failed to process receipt');
+                    }
+                } catch (error) {
+                    showError('Failed to process receipt. Please try again.');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayResults(receipts) {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.results-section').style.display = 'block';
+            
+            const container = document.getElementById('receipts-container');
+            container.innerHTML = '';
+
+            receipts.forEach((receipt, index) => {
+                if (receipt.success !== false) {
+                    const receiptCard = createReceiptCard(receipt, index);
+                    container.appendChild(receiptCard);
+                }
+            });
+
+            if (receipts.length > 1) {
+                document.querySelector('.bulk-controls').style.display = 'block';
+                document.getElementById('processed-count').textContent = receipts.filter(r => r.success !== false).length;
+            } else {
+                document.querySelector('.bulk-controls').style.display = 'none';
+            }
+        }
+
+        function displayBulkResults(results) {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.results-section').style.display = 'block';
+            
+            const successResults = results.filter(r => r.success);
+            const failedResults = results.filter(r => !r.success);
+            
+            if (failedResults.length > 0) {
+                alert(`${failedResults.length} receipts failed to process. Successfully processed ${successResults.length} receipts.`);
+            }
+            
+            const receiptsForDisplay = successResults.map(r => ({
+                filename: r.filename,
+                timestamp: new Date().toISOString(),
+                data: r.data
+            }));
+            
+            displayResults(receiptsForDisplay);
+            
+            // Save successful ones to history
+            receiptsForDisplay.forEach(receipt => saveToHistory(receipt));
+            
+            processedReceipts = receiptsForDisplay;
+        }
+
+        function createReceiptCard(receipt, index) {
+            const card = document.createElement('div');
+            card.className = 'receipt-card';
+            
+            const date = new Date(receipt.timestamp).toLocaleDateString();
+            const time = new Date(receipt.timestamp).toLocaleTimeString();
+            
+            card.innerHTML = `
+                <div class="receipt-header">
+                    <div class="receipt-title">📄 ${receipt.filename}</div>
+                    <div class="receipt-meta">Processed: ${date} at ${time}</div>
+                </div>
+                
+                ${receipt.rawImage ? `<img src="${receipt.rawImage}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-bottom: 15px;" alt="Receipt preview">` : ''}
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${receipt.data.items.map(item => `
+                            <tr${item.item === 'TOTAL' ? ' style="border-top: 2px solid #667eea; font-weight: bold;"' : ''}>
+                                <td>${item.item}</td>
+                                <td>${item.quantity}</td>
+                                <td>${item.price}</td>
+                                <td><strong>${item.total}</strong></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                
+                <div class="download-buttons">
+                    <button class="btn btn-success" onclick="downloadReceiptCSV(${index})">📥 Download CSV</button>
+                    <button class="btn btn-success" onclick="downloadReceiptExcel(${index})">📥 Download Excel</button>
+                    <button class="btn btn-outline" onclick="downloadReceiptPDF(${index})">📄 Download PDF</button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Download functions
+        function downloadReceiptCSV(index) {
+            const receipt = processedReceipts[index];
+            const csv = generateCSV(receipt.data.items);
+            downloadFile(csv, `${receipt.filename}_receipt.csv`, 'text/csv');
+        }
+
+        function downloadReceiptExcel(index) {
+            const receipt = processedReceipts[index];
+            const csv = generateCSV(receipt.data.items);
+            downloadFile(csv, `${receipt.filename}_receipt.xlsx`, 'application/vnd.ms-excel');
+        }
+
+        function downloadAllCSV() {
+            let allData = [];
+            processedReceipts.forEach(receipt => {
+                allData.push(`Receipt: ${receipt.filename}`);
+                allData.push(...receipt.data.items.map(item => 
+                    `"${item.item}","${item.quantity}","${item.price}","${item.total}"`
+                ));
+                allData.push(''); // Empty line between receipts
+            });
+            
+            const csv = 'Item,Quantity,Price,Total\n' + allData.join('\n');
+            downloadFile(csv, `all_receipts_${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+        }
+
+        function downloadAllExcel() {
+            downloadAllCSV(); // For now, just download as CSV with Excel extension
+        }
+
+        function generateCSV(items) {
+            let csv = 'Item,Quantity,Price,Total\n';
+            items.forEach(item => {
+                csv += `"${item.item}","${item.quantity}","${item.price}","${item.total}"\n`;
+            });
+            return csv;
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // History management
+        function saveToHistory(receipt) {
+            let history = JSON.parse(localStorage.getItem('receiptHistory') || '[]');
+            history.unshift(receipt); // Add to beginning
+            
+            // Keep only last 20 receipts
+            if (history.length > 20) {
+                history = history.slice(0, 20);
+            }
+            
+            localStorage.setItem('receiptHistory', JSON.stringify(history));
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const history = JSON.parse(localStorage.getItem('receiptHistory') || '[]');
+            const historySection = document.getElementById('history-section');
+            const container = document.getElementById('history-container');
+            
+            if (history.length > 0) {
+                historySection.style.display = 'block';
+                container.innerHTML = '';
+                
+                history.forEach((receipt, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(receipt.timestamp).toLocaleDateString();
+                    const total = receipt.data.items.find(item => item.item === 'TOTAL')?.total || '$0.00';
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-info">
+                            <strong>${receipt.filename}</strong><br>
+                            <small>${date} • Total: ${total}</small>
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn btn-outline" onclick="reprocessFromHistory(${index})">🔄 View Again</button>
+                            <button class="btn btn-success" onclick="downloadFromHistory(${index})">📥 Download</button>
+                        </div>
+                    `;
+                    
+                    container.appendChild(historyItem);
+                });
+            } else {
+                historySection.style.display = 'none';
+            }
+        }
+
+        function reprocessFromHistory(index) {
+            const history = JSON.parse(localStorage.getItem('receiptHistory') || '[]');
+            const receipt = history[index];
+            
+            if (receipt) {
+                processedReceipts = [receipt];
+                displayResults(processedReceipts);
+                
+                // Scroll to results
+                document.querySelector('.results-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function downloadFromHistory(index) {
+            const history = JSON.parse(localStorage.getItem('receiptHistory') || '[]');
+            const receipt = history[index];
+            
+            if (receipt) {
+                const csv = generateCSV(receipt.data.items);
+                downloadFile(csv, `${receipt.filename}_receipt.csv`, 'text/csv');
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all receipt history?')) {
+                localStorage.removeItem('receiptHistory');
+                updateHistoryDisplay();
+            }
+        }
+
+        // Payment functions
+        function showPaymentModal() {
+            document.getElementById('payment-modal').style.display = 'block';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            selectedPaymentPlan = null;
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('pay-button').disabled = true;
+        }
+
+        function selectPayment(plan) {
+            selectedPaymentPlan = plan;
+            
+            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+            document.getElementById('option-' + plan).classList.add('selected');
+            document.getElementById('pay-button').disabled = false;
+        }
+
+        async function processPayment() {
+            if (!selectedPaymentPlan) return;
+
+            const plans = {
+                single: { price: 100, credits: 1, name: '1 Receipt Credit' },
+                pack10: { price: 800, credits: 10, name: '10 Receipt Credits' },
+                pack25: { price: 1800, credits: 25, name: '25 Receipt Credits' },
+                pack100: { price: 6000, credits: 100, name: '100 Receipt Credits' }
+            };
+
+            const plan = plans[selectedPaymentPlan];
+            
+            try {
+                const response = await fetch('/.netlify/functions/create-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        plan: selectedPaymentPlan,
+                        price: plan.price,
+                        credits: plan.credits,
+                        name: plan.name
+                    })
+                });
+
+                const session = await response.json();
+
+                if (session.error) {
+                    alert('Payment failed: ' + session.error);
+                    return;
+                }
+
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.sessionId
+                });
+
+                if (result.error) {
+                    alert('Payment failed: ' + result.error.message);
+                }
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.error').style.display = 'block';
+            document.querySelector('.error p').textContent = message;
+        }
+
+        // Event listeners
+        document.getElementById('file-input').addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
                 processFile(e.target.files[0]);
             }
         });
 
-        function processFile(file) {
-            // Show loading
-            loading.style.display = 'block';
-            previewSection.style.display = 'none';
-            error.style.display = 'none';
-
-            // Show preview image
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('preview-img').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-
-            // Process with real OCR
-            setTimeout(async () => {
-                await processWithRealOCR(file);
-            }, 1000);
-        }
-
-        async function processWithRealOCR(file) {
-            try {
-                // Convert file to base64
-                const base64 = await fileToBase64(file);
-                
-                // Call our Netlify function
-                const response = await fetch('/.netlify/functions/process-receipt', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        imageData: base64
-                    })
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    extractedData = result.data.items;
-                    displayResults();
-                } else {
-                    showError(result.error || 'Failed to process receipt');
-                }
-            } catch (error) {
-                console.error('OCR Error:', error);
-                showError('Failed to process receipt. Please try again.');
+        document.getElementById('bulk-file-input').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                processBulkFiles(e.target.files);
             }
-        }
+        });
 
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
+        // Drag and drop for both upload areas
+        [document.querySelector('.upload-area'), document.querySelector('.bulk-upload-area')].forEach(area => {
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.classList.add('dragover');
             });
-        }
 
-        function showError(message) {
-            loading.style.display = 'none';
-            error.style.display = 'block';
-            error.querySelector('p').textContent = message;
-        }
+            area.addEventListener('dragleave', () => {
+                area.classList.remove('dragover');
+            });
 
-        function displayResults() {
-            loading.style.display = 'none';
-            previewSection.style.display = 'block';
-
-            const tableBody = document.getElementById('table-body');
-            tableBody.innerHTML = '';
-
-            extractedData.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.item}</td>
-                    <td>${row.quantity}</td>
-                    <td>${row.price}</td>
-                    <td><strong>${row.total}</strong></td>
-                `;
-                if (row.item === 'TOTAL') {
-                    tr.style.borderTop = '2px solid #667eea';
-                    tr.style.fontWeight = 'bold';
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                
+                if (area.classList.contains('bulk-upload-area')) {
+                    processBulkFiles(files);
+                } else if (files.length > 0) {
+                    processFile(files[0]);
                 }
-                tableBody.appendChild(tr);
             });
-        }
+        });
 
-        function downloadCSV() {
-            let csv = 'Item,Quantity,Price,Total\n';
-            extractedData.forEach(row => {
-                csv += `"${row.item}","${row.quantity}","${row.price}","${row.total}"\n`;
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `receipt_${Date.now()}.csv`;
-            a.click();
-        }
-
-        function downloadExcel() {
-            // For Excel, we'll use CSV for now but with .xlsx extension
-            // In production, you'd use a library like SheetJS
-            let csv = 'Item,Quantity,Price,Total\n';
-            extractedData.forEach(row => {
-                csv += `"${row.item}","${row.quantity}","${row.price}","${row.total}"\n`;
-            });
-
-            const blob = new Blob([csv], { type: 'application/vnd.ms-excel' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `receipt_${Date.now()}.xlsx`;
-            a.click();
-        }
-
-        // OCR processing functions above handle the real API integration
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCreditsDisplay();
+            updateHistoryDisplay();
+            
+            // Check for payment success
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                const credits = parseInt(urlParams.get('credits') || '0');
+                if (credits > 0) {
+                    addCredits(credits);
+                    alert(`🎉 Payment successful! ${credits} credits added to your account.`);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+            
+            if (urlParams.get('payment') === 'cancelled') {
+                alert('💔 Payment was cancelled. Your credits remain unchanged.');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
     </script>
 </body>
 </html>
