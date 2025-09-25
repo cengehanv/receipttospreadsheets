@@ -16,21 +16,32 @@ exports.handler = async (event, context) => {
 
   try {
     const { imageData } = JSON.parse(event.body);
-    const base64Image = imageData.split(',')[1];
     
-    // Using OCR.Space free API
+    console.log('Processing image...');
+    
+    // Create URL-encoded form data
+    const formBody = new URLSearchParams();
+    formBody.append('base64Image', imageData);
+    formBody.append('language', 'eng');
+    formBody.append('isOverlayRequired', 'false');
+    formBody.append('apikey', 'helloworld');
+    formBody.append('OCREngine', '2');
+    
     const response = await fetch('https://api.ocr.space/parse/image', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `base64Image=data:image/jpeg;base64,${base64Image}&language=eng&apikey=helloworld`
+      body: formBody.toString()
     });
 
     const result = await response.json();
+    console.log('OCR Result:', JSON.stringify(result, null, 2));
     
-    if (result.ParsedResults && result.ParsedResults[0].ParsedText) {
+    if (result.ParsedResults && result.ParsedResults[0] && result.ParsedResults[0].ParsedText) {
       const extractedText = result.ParsedResults[0].ParsedText;
+      console.log('Extracted text:', extractedText);
+      
       const parsedData = parseReceiptText(extractedText);
       
       return {
@@ -43,12 +54,14 @@ exports.handler = async (event, context) => {
         })
       };
     } else {
+      console.log('No text found. Full result:', result);
       return {
         statusCode: 200,
         headers,
         body: JSON.stringify({ 
           success: false, 
-          error: 'No text found in image' 
+          error: 'No text found in image. Try a clearer photo with better lighting.',
+          debug: result
         })
       };
     }
@@ -60,62 +73,108 @@ exports.handler = async (event, context) => {
       headers,
       body: JSON.stringify({ 
         success: false, 
-        error: error.message 
+        error: `Processing failed: ${error.message}` 
       })
     };
   }
 };
 
 function parseReceiptText(text) {
-  const lines = text.split('\r\n').map(line => line.trim()).filter(line => line.length > 0);
+  console.log('Parsing text:', text);
+  
+  const lines = text.split(/[\r\n]+/).map(line => line.trim()).filter(line => line.length > 0);
+  console.log('Lines:', lines);
   
   const items = [];
   let total = '0.00';
   let tax = '0.00';
   
-  // Find total
+  // Find total (more flexible patterns)
   for (const line of lines) {
-    const totalMatch = line.match(/total.*?[\$]?(\d+\.?\d{0,2})/i);
-    if (totalMatch) {
-      total = totalMatch[1];
-      break;
+    const totalPatterns = [
+      /total.*?(\d+\.?\d{2})/i,
+      /^total\s+\$?(\d+\.?\d{2})/i,
+      /(\d+\.?\d{2})\s*total/i
+    ];
+    
+    for (const pattern of totalPatterns) {
+      const match = line.match(pattern);
+      if (match) {
+        total = match[1];
+        console.log('Found total:', total, 'from line:', line);
+        break;
+      }
     }
+    if (total !== '0.00') break;
   }
   
   // Find tax
   for (const line of lines) {
-    const taxMatch = line.match(/tax.*?[\$]?(\d+\.?\d{0,2})/i);
+    const taxMatch = line.match(/tax.*?(\d+\.?\d{2})/i);
     if (taxMatch) {
       tax = taxMatch[1];
+      console.log('Found tax:', tax);
       break;
     }
   }
   
-  // Extract items
+  // Extract line items (more flexible)
   for (const line of lines) {
+    // Skip obvious non-items
     if (line.toLowerCase().includes('total') || 
         line.toLowerCase().includes('tax') || 
         line.toLowerCase().includes('change') ||
-        line.toLowerCase().includes('cash')) {
+        line.toLowerCase().includes('cash') ||
+        line.toLowerCase().includes('card') ||
+        line.toLowerCase().includes('visa') ||
+        line.toLowerCase().includes('master')) {
       continue;
     }
     
-    const itemMatch = line.match(/^(.+?)\s+[\$]?(\d+\.?\d{0,2})$/);
-    if (itemMatch) {
-      const itemName = itemMatch[1].trim();
-      const price = itemMatch[2];
-      
-      if (itemName.length > 2 && parseFloat(price) < 500) {
-        items.push({
-          item: itemName,
-          quantity: '1',
-          price: `$${price}`,
-          total: `$${price}`
-        });
+    // Try multiple patterns for items with prices
+    const patterns = [
+      /^(.+?)\s+\$(\d+\.?\d{2})$/,           // Item $5.99
+      /^(.+?)\s+(\d+\.?\d{2})$/,             // Item 5.99
+      /^(.+?)\$(\d+\.?\d{2})/,               // Item$5.99
+      /^(.+?)\s+(\d+\.\d{2})\s*$/            // Item 5.99 (with spaces)
+    ];
+    
+    for (const pattern of patterns) {
+      const match = line.match(pattern);
+      if (match) {
+        const itemName = match[1].trim();
+        const price = match[2];
+        
+        // Filter reasonable items
+        if (itemName.length > 1 && 
+            parseFloat(price) > 0 && 
+            parseFloat(price) < 1000 &&
+            !itemName.match(/^\d+$/)) {
+          
+          items.push({
+            item: itemName,
+            quantity: '1',
+            price: `$${price}`,
+            total: `$${price}`
+          });
+          console.log('Added item:', itemName, price);
+          break;
+        }
       }
     }
   }
   
+  // If no items found, add some example data so user knows it's working
+  if (items.length === 0) {
+    items.push({
+      item: 'Item not clearly readable',
+      quantity: '1',
+      price: '$0.00',
+      total: '$0.00'
+    });
+  }
+  
+  // Add tax if found
   if (parseFloat(tax) > 0) {
     items.push({
       item: 'Tax',
@@ -125,6 +184,7 @@ function parseReceiptText(text) {
     });
   }
   
+  // Add total
   items.push({
     item: 'TOTAL',
     quantity: '',
