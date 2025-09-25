@@ -251,13 +251,6 @@
                 
                 <div class="extracted-data">
                     <h3>🎯 Extracted Data:</h3>
-                    
-                    <!-- Debug section to show raw text -->
-                    <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px;">
-                        <h4>🔍 Raw OCR Text (for debugging):</h4>
-                        <pre id="raw-text-debug" style="white-space: pre-wrap; font-size: 12px; max-height: 200px; overflow-y: auto;"></pre>
-                    </div>
-                    
                     <table class="data-table" id="data-table">
                         <thead>
                             <tr>
@@ -382,7 +375,6 @@
                 
                 if (result.success) {
                     extractedData = result.data.items;
-                    window.lastRawText = result.rawText; // Store for debugging
                     displayResults();
                 } else {
                     showError(result.error || 'Failed to process receipt');
@@ -411,12 +403,6 @@
         function displayResults() {
             loading.style.display = 'none';
             previewSection.style.display = 'block';
-
-            // Show raw text for debugging
-            const debugElement = document.getElementById('raw-text-debug');
-            if (debugElement && window.lastRawText) {
-                debugElement.textContent = window.lastRawText;
-            }
 
             const tableBody = document.getElementById('table-body');
             tableBody.innerHTML = '';
